@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Đề Ôn Tập Kiểm Tra Cuối Học Kì 2 - Hóa Học 12</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f0f8ff; margin: 0; padding: 20px; color: #333; }
+        #header-container { text-align: center; margin-bottom: 20px; }
+        #title-box {
+            background: linear-gradient(135deg, #4CAF50, #2e7d32); 
+            color: #FFFF00; /* Màu vàng tươi */
+            font-weight: bold; 
+            font-size: 24px;
+            padding: 20px; 
+            border-radius: 12px; 
+            border: 4px solid #B8860B; /* Viền màu vàng đậm */
+            /* Hiệu ứng khung 3D nổi */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0px 4px 5px rgba(255,255,255,0.4), inset 0px -4px 5px rgba(0,0,0,0.3);
+            /* Hiệu ứng chữ nổi 3D */
+            text-shadow: 1px 1px 0px #b45f06, 2px 2px 0px #b45f06, 3px 3px 5px rgba(0,0,0,0.5);
+            text-transform: uppercase; 
+            margin: 0 auto 10px auto; 
+            display: block; /* Chuyển thành block để chỉnh chiều ngang */
+            max-width: 850px; /* Bằng kích cỡ với khung container bên dưới */
+            width: 100%;
+        }
+        #subtitle { color: #0d47a1; font-weight: bold; font-size: 18px; margin-top: 5px; }
+        .container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 850px; margin: 0 auto; }
+        .hidden { display: none !important; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #555; }
+        .form-group input[type="text"] { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; transition: 0.3s; }
+        .form-group input[type="text"]:focus { border-color: #2196F3; outline: none; background-color: #fff; }
+        
+        button {
+            background: #2196F3; color: white; border: none; padding: 12px 25px; border-radius: 8px;
+            font-size: 16px; cursor: pointer; font-weight: bold; transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(33, 150, 243, 0.3);
+        }
+        button:hover:not(:disabled) { background: #1976D2; transform: translateY(-1px); }
+        button:disabled { background: #9e9e9e; cursor: not-allowed; box-shadow: none; }
+        
+        .question-title { font-weight: bold; font-size: 19px; margin-bottom: 15px; border-left: 5px solid #2196F3; padding-left: 10px; color: #1565C0; }
+        .question-content { font-size: 16px; margin-bottom: 20px; line-height: 1.6; }
+        .options-list { list-style: none; padding: 0; }
+        .option-item { margin-bottom: 12px; }
+        .option-item label { display: flex; align-items: center; cursor: pointer; padding: 12px; border: 1px solid #eee; border-radius: 8px; background: #fafafa; transition: 0.2s; }
+        .option-item input { margin-right: 12px; width: 20px; height: 20px; flex-shrink: 0; }
+        .option-item:hover label { background: #e3f2fd; border-color: #bbdefb; }
+        .tf-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .tf-table th, .tf-table td { border: 1px solid #e0e0e0; padding: 12px; text-align: center; }
+        .tf-table th { background-color: #f5f5f5; font-weight: bold; }
+        .tf-table td.tf-stmt { text-align: left; width: 60%; font-size: 15px; }
+        
+        .short-ans-input { padding: 12px; font-size: 16px; width: 100%; max-width: 250px; border: 2px solid #ddd; border-radius: 8px; text-align: center; }
+        
+        .drag-container { background: #f8f9fa; padding: 20px; border: 2px dashed #cfd8dc; border-radius: 10px; min-height: 80px; display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+        .drag-token {
+            background: #fff9c4; border: 2px solid #fbc02d; padding: 10px 18px; border-radius: 8px; font-weight: bold;
+            cursor: pointer; user-select: none; box-shadow: 0 3px 6px rgba(0,0,0,0.1); transition: transform 0.2s;
+        }
+        .drag-token.selected { background: #ffeb3b; outline: 3px solid #f44336; transform: scale(1.05); }
+        .drop-zone {
+            display: inline-flex; min-width: 120px; min-height: 42px; border: 2px dashed #90a4ae; border-radius: 6px;
+            vertical-align: middle; background: #fff; margin: 0 5px; align-items: center; justify-content: center;
+            padding: 2px; transition: 0.3s; cursor: pointer;
+        }
+        .drop-zone:hover { border-color: #2196F3; background-color: #f1f8ff; }
+        .drop-zone.active { border-color: #2196F3; background: #e3f2fd; }
+        .review-correct { border: 2px solid #4CAF50 !important; background-color: #e8f5e9 !important; }
+        .review-incorrect { border: 2px solid #f44336 !important; background-color: #ffebee !important; }
+        .correction { color: #d32f2f; font-weight: bold; margin-left: 10px; font-size: 0.9em; background: #ffcdd2; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-top: 5px; }
+        #result-screen { text-align: center; }
+        .score-board { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 25px 0; }
+        .score-item { background: #fff; border: 2px solid #e3f2fd; padding: 20px; border-radius: 12px; min-width: 150px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .score-value { font-size: 32px; font-weight: bold; color: #d32f2f; margin-top: 10px; }
+        #saveStatus { font-weight: bold; margin-top: 15px; }
+        #controls { margin-top: 30px; display: flex; justify-content: space-between; align-items: center; }
+    </style>
+</head>
+<body>
+<div id="header-container">
+    <div id="title-box">TRƯỜNG PHỔ THÔNG NK TDTT NGUYỄN THỊ ĐỊNH<br>ĐỀ THI THỬ KIỂM TRA CUỐI HỌC KÌ 2 - HÓA HỌC 12</div>
+    <div id="subtitle">Thầy Lê Nguyễn Cường</div>
+</div>
+
+<div class="container" id="login-screen">
+    <div class="form-group">
+        <label for="hoTen">Họ và Tên:</label>
+        <input type="text" id="hoTen" placeholder="Nhập đầy đủ họ và tên...">
+    </div>
+    <div class="form-group">
+        <label for="lop">Lớp:</label>
+        <input type="text" id="lop" placeholder="Ví dụ: 12A5, 12A3...">
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <button id="btnStart" disabled>Bắt đầu làm bài</button>
+    </div>
+</div>
+
+<div class="container hidden" id="quiz-screen">
+    <div id="question-container"></div>
+    <div id="controls"></div>
+</div>
+
+<div class="container hidden" id="result-screen">
+    <h2 style="color: #2e7d32;">Kết Quả Bài Làm</h2>
+    <div class="info-board" id="infoBoard" style="background: #f1f8e9; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;"></div>
+    <div class="score-board">
+        <div class="score-item">Điểm số<div class="score-value" id="rs-diem"></div></div>
+        <div class="score-item">Đúng<div class="score-value" id="rs-dung" style="color: #4CAF50;"></div></div>
+        <div class="score-item">Sai<div class="score-value" id="rs-sai"></div></div>
+    </div>
+    <div id="saveStatus"></div>
+    <div style="margin-top: 30px;">
+        <button id="btnReview" class="hidden">Xem lại đáp án</button>
+        <button id="btnRestart" class="hidden" style="margin-left: 10px; background: #607d8b;">Làm lại</button>
+    </div>
+</div>
+
+<script>
+const SCRIPT_URLS = {
+    "12A3": "https://script.google.com/macros/s/AKfycbwoEBpul63ryz1y0OO7LOQHP-qgDjMpB0yQx11Ap1crWmNFY1r6tnhNfpWEl0ycry0/exec",
+    "12A5": "https://script.google.com/macros/s/AKfycbzWK8-1VPomeCpM6KB9vzl5DlR3k0jZYKyt-uKnK3MnnK0J4qRwrby2DacpDZ7UVBnc/exec"
+};
+
+const db = [
+    // Phần 1: Trắc nghiệm 4 lựa chọn (16 câu)
+    { type: "MCQ", content: "Các nguyên tố nhóm IA (kim loại kiềm) có cấu hình electron lớp ngoài cùng là", options: [{key: "A", text: "ns<sup>2</sup>."}, {key: "B", text: "ns<sup>2</sup>np<sup>1</sup>."}, {key: "C", text: "ns<sup>1</sup>."}, {key: "D", text: "ns<sup>2</sup>np<sup>6</sup>."}], correct: "C" },
+    { type: "MCQ", content: "Tính chất hóa học đặc trưng của kim loại kiềm là", options: [{key: "A", text: "tính oxi hóa mạnh – dễ bị khử."}, {key: "B", text: "trơ – khó tham gia phản ứng hóa học."}, {key: "C", text: "tính khử mạnh – dễ bị oxi hóa."}, {key: "D", text: "tính oxi hóa yếu – khó bị khử."}], correct: "C" },
+    { type: "MCQ", content: "Nước Javel là sản phẩm của quá trình", options: [{key: "A", text: "sục khí chlorine vào vôi sữa."}, {key: "B", text: "cho dung dịch NaOH loãng tác dụng với khí chlorine."}, {key: "C", text: "điện phân dung dịch NaOH có màng ngăn giữa hai điện cực."}, {key: "D", text: "điện phân nóng chảy NaOH không có màng ngăn."}], correct: "B" },
+    { type: "MCQ", content: "Nhận định nào sau đây về các kim loại nhóm IA <b>không</b> đúng?", options: [{key: "A", text: "Độ cứng thấp."}, {key: "B", text: "Dễ nóng chảy."}, {key: "C", text: "Khối lượng riêng lớn."}, {key: "D", text: "Dẫn điện tốt."}], correct: "C" },
+    { type: "MCQ", content: "Quá trình sản xuất soda bằng phương pháp Solvay không sử dụng nguyên liệu nào sau đây?", options: [{key: "A", text: "Carbon dioxide."}, {key: "B", text: "Muối ăn."}, {key: "C", text: "Xút ăn da."}, {key: "D", text: "Ammonia."}], correct: "C" },
+    { type: "MCQ", content: "Nguyên tố nhóm IIA gồm", options: [{key: "A", text: "Be, Mg, Na, Sr, Ba."}, {key: "B", text: "Be, K, Mg, Ca, Sr."}, {key: "C", text: "Be, Mg, Ca, Sr, Ba."}, {key: "D", text: "Be, Mg, Zn, Sr, Ba."}], correct: "C" },
+    { type: "MCQ", content: "Nhận định nào <b>không</b> đúng về cấu tạo và tính chất vật lí của các kim loại nhóm IIA?", options: [{key: "A", text: "Khối lượng riêng tương đối nhỏ, là những kim loại nhẹ hơn nhôm (trừ Ba)."}, {key: "B", text: "Độ cứng cao hơn kim loại nhóm IA, nhưng mềm hơn kim loại nhôm."}, {key: "C", text: "Mạng tinh thể của chúng đều có kiểu lập phương tâm khối."}, {key: "D", text: "Nhiệt độ nóng chảy và nhiệt độ sôi tương đối thấp (trừ Be)."}], correct: "C" },
+    { type: "MCQ", content: "Để nhận biết sự có mặt của ion Ca<sup>2+</sup> người ta dùng muối nào sau đây?", options: [{key: "A", text: "NaCl."}, {key: "B", text: "KNO<sub>3</sub>."}, {key: "C", text: "Na<sub>2</sub>CO<sub>3</sub>."}, {key: "D", text: "CaCl<sub>2</sub>."}], correct: "C" },
+    { type: "MCQ", content: "Hydroxide nào kém tan trong nước nhất?", options: [{key: "A", text: "Ca(OH)<sub>2</sub>."}, {key: "B", text: "Mg(OH)<sub>2</sub>."}, {key: "C", text: "Ba(OH)<sub>2</sub>."}, {key: "D", text: "Sr(OH)<sub>2</sub>."}], correct: "B" },
+    { type: "MCQ", content: "Khi đun nóng đến 600°C, thạch cao sống mất một phần nước trở thành thạch cao nung, được dùng để đúc khuôn trong điêu khắc, bó bột trong y học. Thành phần hoá học của thạch cao nung là", options: [{key: "A", text: "CaSO<sub>4</sub>.H<sub>2</sub>O."}, {key: "B", text: "Ca(H<sub>2</sub>PO<sub>4</sub>)<sub>2</sub>."}, {key: "C", text: "CaCO<sub>3</sub>."}, {key: "D", text: "Ca(OH)<sub>2</sub>."}], correct: "A" },
+    { type: "MCQ", content: "Có thể nhận biết dung dịch BaCl<sub>2</sub> bằng dung dịch chất nào sau đây?", options: [{key: "A", text: "NaOH."}, {key: "B", text: "K<sub>2</sub>CO<sub>3</sub>."}, {key: "C", text: "NaCl."}, {key: "D", text: "NaNO<sub>3</sub>."}], correct: "B" },
+    { type: "MCQ", content: "Nước cứng chứa nhiều ion nào sau đây?", options: [{key: "A", text: "Ca<sup>2+</sup> và Mg<sup>2+</sup>."}, {key: "B", text: "HCO<sub>3</sub><sup>-</sup>, Cl<sup>-</sup>."}, {key: "C", text: "SO<sub>4</sub><sup>2-</sup>, Cl<sup>-</sup>."}, {key: "D", text: "Cl<sup>-</sup>, SO<sub>4</sub><sup>2-</sup>, HCO<sub>3</sub><sup>-</sup>."}], correct: "A" },
+    { type: "MCQ", content: "Nguyên tắc làm mềm nước cứng là làm giảm nồng độ của", options: [{key: "A", text: "ion Ca<sup>2+</sup>, Mg<sup>2+</sup>."}, {key: "B", text: "ion HCO<sub>3</sub><sup>-</sup>."}, {key: "C", text: "ion Cl<sup>-</sup>, SO<sub>4</sub><sup>2-</sup>."}, {key: "D", text: "ion Ca<sup>2+</sup>."}], correct: "A" },
+    { type: "MCQ", content: "Để làm mềm nước có tính cứng vĩnh cửu phải dùng hóa chất nào sau đây?", options: [{key: "A", text: "NaCl."}, {key: "B", text: "Na<sub>2</sub>CO<sub>3</sub>."}, {key: "C", text: "HCl."}, {key: "D", text: "Na<sub>2</sub>SO<sub>4</sub>."}], correct: "B" },
+    { type: "MCQ", content: "Một loại nước cứng, khi được đun sôi thì mất tính cứng. Trong loại nước cứng này có hòa tan những hợp chất nào sau đây?", options: [{key: "A", text: "Ca(HCO<sub>3</sub>)<sub>2</sub>, MgCl<sub>2</sub>."}, {key: "B", text: "Ca(HCO<sub>3</sub>)<sub>2</sub>, Mg(HCO<sub>3</sub>)<sub>2</sub>."}, {key: "C", text: "Mg(HCO<sub>3</sub>)<sub>2</sub>, CaCl<sub>2</sub>."}, {key: "D", text: "MgCl<sub>2</sub>, CaSO<sub>4</sub>."}], correct: "B" },
+    { type: "MCQ", content: "Nước chứa nhiều các ion nào sau đây có tính cứng toàn phần?", options: [{key: "A", text: "Mg<sup>2+</sup>, Ca<sup>2+</sup>, HCO<sub>3</sub><sup>-</sup>, SO<sub>4</sub><sup>2-</sup>."}, {key: "B", text: "Na<sup>+</sup>, K<sup>+</sup>, SO<sub>4</sub><sup>2-</sup>, Cl<sup>-</sup>."}, {key: "C", text: "Mg<sup>2+</sup>, Ca<sup>2+</sup>, HCO<sub>3</sub><sup>-</sup>."}, {key: "D", text: "Mg<sup>2+</sup>, Ca<sup>2+</sup>, SO<sub>4</sub><sup>2-</sup>, Cl<sup>-</sup>."}], correct: "A" },
+
+    // Phần 2: Trắc nghiệm đúng sai (2 câu)
+    { 
+        type: "TF", 
+        content: "Chọn phát biểu đúng – sai cho các phát biểu sau đây.", 
+        statements: [
+            {key: "a", text: "Nước cứng tạm thời chứa các anion: SO<sub>4</sub><sup>2-</sup> và Cl<sup>-</sup>.", correct: "S"},
+            {key: "b", text: "Dùng Na<sub>2</sub>CO<sub>3</sub> có thể làm mất tính cứng tạm thời và vĩnh cửu của nước cứng.", correct: "D"},
+            {key: "c", text: "Nước cứng gây hao tốn nhiên liệu và không an toàn cho các nồi hơi, làm tắc các đường ống dẫn nước.", correct: "D"},
+            {key: "d", text: "Nước cứng làm giảm đi đáng kể khả năng giặt rửa của xà phòng và chất giặt rửa tổng hợp.", correct: "S"}
+        ]
+    },
+    { 
+        type: "TF", 
+        content: "Lựa chọn phát biểu đúng - sai cho các phát biểu sau đây.", 
+        statements: [
+            {key: "a", text: "Vôi tôi và vôi sống đều có thể dùng để khử chua đất trong nông nghiệp.", correct: "D"},
+            {key: "b", text: "Đá vôi và thạch cao đều được dùng trong sản xuất vật liệu xây dựng.", correct: "D"},
+            {key: "c", text: "Mg được điều chế bằng phương pháp điện phân dung dịch MgCl<sub>2</sub>.", correct: "S"},
+            {key: "d", text: "Điện phân nóng chảy các muối chloride của kim loại kiềm thổ sẽ thu được kim loại kiềm thổ ở cathode.", correct: "D"}
+        ]
+    },
+
+    // Phần 3: Trắc nghiệm trả lời ngắn (4 câu)
+    { type: "SA", content: "Ở 20 °C, độ tan của NaCl trong nước là 40,5 gam trong 100 g nước. Ở nhiệt độ này, dung dịch NaCl bão hoà có nồng độ a%. Giá trị của a là bao nhiêu? (Làm tròn kết quả đến phần mười).", correct: "28,8" },
+    { type: "SA", content: "Cho dãy các kim loại: Mg, Na, Sr, Al, Ca, Zn, Fe, Be và Ba. Số kim loại kiềm thổ trong dãy là?", correct: "4" },
+    { type: "SA", content: "Cho dung dịch Ba(HCO<sub>3</sub>)<sub>2</sub> lần lượt vào các dung dịch sau: BaCl<sub>2</sub>, HNO<sub>3</sub>, Na<sub>2</sub>SO<sub>4</sub>, Ba(OH)<sub>2</sub>, NaHSO<sub>4</sub>, NaCl. Số trường hợp có phản ứng xảy ra là?", correct: "4" },
+    { type: "SA", content: "Các chất nào sau đây được sử dụng để làm mất tính cứng vĩnh cửu của nước: K<sub>2</sub>CO<sub>3</sub>, Na<sub>2</sub>SO<sub>4</sub>, Na<sub>3</sub>PO<sub>4</sub>, H<sub>2</sub>SO<sub>4</sub>, Ca(OH)<sub>2</sub>, Na<sub>2</sub>CO<sub>3</sub>? Nhập tổng số chất.", correct: "3" },
+
+    // Phần 4: Kéo thả (4 câu)
+    { 
+        type: "DD", 
+        content: "Kéo thả chất đúng vào chỗ trống của phương trình sau:<br>Na<sub>2</sub>CO<sub>3</sub>(aq) + Ca(HCO<sub>3</sub>)<sub>2</sub>(aq) ⟶ <span class='drop-zone' data-drop-id='d1'></span>(s) + 2NaHCO<sub>3</sub>(aq).",
+        drops: [{id: 'd1', correct: 't1'}],
+        tokens: [{id: 't1', text: 'CaCO₃'}, {id: 't2', text: 'Ca(OH)₂'}, {id: 't3', text: 'CaO'}]
+    },
+    { 
+        type: "DD", 
+        content: "Kéo thả đáp án đúng vào chỗ trống:<br>Nhiệt phân đến khối lượng không đổi muối Ba(HCO<sub>3</sub>)<sub>2</sub> thu được 7,9328 lít khí CO<sub>2</sub> ở điều kiện chuẩn (V=24,79 lít). Giả sử hiệu suất đạt 100%. Khối lượng muối đem nhiệt phân là <span class='drop-zone' data-drop-id='d1'></span> gam. (Cho Ba=137, C=12, O=16, H=1).",
+        drops: [{id: 'd1', correct: 't1'}],
+        tokens: [{id: 't1', text: '41,44'}, {id: 't2', text: '39,66'}, {id: 't3', text: '40,00'}]
+    },
+    { 
+        type: "DD", 
+        content: "Kéo thả đáp án đúng vào chỗ trống:<br>Cho 20,28 gam kim loại nhóm IA (Gọi là kim loại R) tác dụng hết với nước thu được 6,4454 lít khí ở đkc. Kim loại IA là <span class='drop-zone' data-drop-id='d1'></span>. (Li=7, Na=23, K=39, Rb=85,5, Cs=133).",
+        drops: [{id: 'd1', correct: 't1'}],
+        tokens: [{id: 't1', text: 'Potassium'}, {id: 't2', text: 'Sodium'}, {id: 't3', text: 'Lithium'}]
+    },
+    { 
+        type: "DD", 
+        content: "Kéo thả chất đúng vào chỗ trống của phương trình sau:<br>Nhiệt phân đến khối lượng không đổi muối Mg(HCO<sub>3</sub>)<sub>2</sub>:<br>Mg(HCO<sub>3</sub>)<sub>2</sub>(s) <span style='font-size: 20px;'>&#8594;</span><sup>t<sup>0</sup></sup> <span class='drop-zone' data-drop-id='d1'></span>(s) + CO<sub>2</sub>(g) + H<sub>2</sub>O(g)",
+        drops: [{id: 'd1', correct: 't1'}],
+        tokens: [{id: 't1', text: 'MgO'}, {id: 't2', text: 'MgCO₃'}, {id: 't3', text: 'Mg'}]
+    }
+];
+
+let hoTen = "", lop = "";
+let shuffledQuestions = [];
+let currentIdx = 0;
+let answers = {};
+let daGuiDuLieu = false;
+let isReviewMode = false;
+const TONG_SO_CAU = db.length;
+
+const inputName = document.getElementById('hoTen');
+const inputLop = document.getElementById('lop');
+const btnStart = document.getElementById('btnStart');
+
+function checkInputs() {
+    btnStart.disabled = !(inputName.value.trim().length > 1 && inputLop.value.trim().length >= 2);
+}
+
+inputName.addEventListener('input', checkInputs);
+inputLop.addEventListener('input', checkInputs);
+
+btnStart.addEventListener('click', () => {
+    hoTen = inputName.value.trim();
+    lop = inputLop.value.trim().toUpperCase().replace(/\s/g, '');
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    initQuiz();
+});
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function initQuiz() {
+    shuffledQuestions = db.map((q, idx) => {
+        let nq = JSON.parse(JSON.stringify(q));
+        nq.originalIndex = idx;
+        if(nq.type === "MCQ") {
+            nq.dapAnDungGoc = nq.correct;
+            nq.options = shuffle([...nq.options]);
+        } else if(nq.type === "TF") {
+            let origMap = {}; 
+            q.statements.forEach(s => origMap[s.key] = s.correct);
+            nq.dapAnDungGoc = origMap; 
+            nq.statements = shuffle([...nq.statements]);
+        } else if (nq.type === "SA") {
+            nq.dapAnDungGoc = nq.correct;
+        } else if (nq.type === "DD") {
+            nq.tokens = shuffle([...nq.tokens]);
+            let origMap = {}; 
+            nq.drops.forEach(d => origMap[d.id] = d.correct);
+            nq.dapAnDungGoc = origMap;
+        }
+        return nq;
+    });
+    shuffledQuestions = shuffle(shuffledQuestions);
+    renderQuestion();
+}
+
+function checkAnswered(idx) {
+    let q = shuffledQuestions[idx];
+    if(!answers[idx]) return false;
+    if(q.type === "MCQ" || q.type === "SA") return answers[idx] !== "";
+    if(q.type === "TF") return Object.keys(answers[idx]).length === q.statements.length;
+    if(q.type === "DD") return Object.keys(answers[idx]).length === q.drops.length;
+    return false;
+}
+
+function handleInput() {
+    if(isReviewMode) return;
+    let q = shuffledQuestions[currentIdx];
+    if(q.type === "MCQ") {
+        let chk = document.querySelector(`input[name="q${currentIdx}"]:checked`);
+        if(chk) answers[currentIdx] = chk.value;
+    } else if(q.type === "TF") {
+        if(!answers[currentIdx]) answers[currentIdx] = {};
+        q.statements.forEach(s => {
+            let chk = document.querySelector(`input[name="q${currentIdx}_${s.key}"]:checked`);
+            if(chk) answers[currentIdx][s.key] = chk.value;
+        });
+    } else if(q.type === "SA") {
+        let val = document.getElementById(`q${currentIdx}_sa`).value.trim();
+        if(val !== "") answers[currentIdx] = val; else delete answers[currentIdx];
+    } else if(q.type === "DD") {
+        if(!answers[currentIdx]) answers[currentIdx] = {};
+        q.drops.forEach(d => {
+            let dz = document.querySelector(`[data-drop-id="${d.id}"]`);
+            if (dz && dz.querySelector('.drag-token')) answers[currentIdx][d.id] = dz.querySelector('.drag-token').getAttribute('data-id');
+            else delete answers[currentIdx][d.id];
+        });
+    }
+    renderControls();
+}
+
+function renderQuestion() {
+    let q = shuffledQuestions[currentIdx];
+    let ctn = document.getElementById('question-container');
+    let html = `<div class="question-title">Câu ${currentIdx + 1} / ${TONG_SO_CAU}</div>
+                <div class="question-content">${q.content}</div>`;
+                
+    if(q.type === "MCQ") {
+        html += `<ul class="options-list">`;
+        q.options.forEach(opt => {
+            let checked = (answers[currentIdx] === opt.key) ? 'checked' : '';
+            let disabled = isReviewMode ? 'disabled' : '';
+            let rCls = isReviewMode ? (opt.key === q.dapAnDungGoc ? "review-correct" : (answers[currentIdx] === opt.key ? "review-incorrect" : "")) : "";
+            html += `<li class="option-item"><label for="q${currentIdx}_${opt.key}" class="${rCls}"><input type="radio" name="q${currentIdx}" value="${opt.key}" id="q${currentIdx}_${opt.key}" ${checked} ${disabled} onchange="handleInput()"><span>${opt.text}</span></label></li>`;
+        });
+        html += `</ul>`;
+    } else if(q.type === "TF") {
+        html += `<table class="tf-table"><tr><th>Phát biểu</th><th>Đúng</th><th>Sai</th></tr>`;
+        q.statements.forEach(s => {
+            let cD = (answers[currentIdx] && answers[currentIdx][s.key] === "D") ? 'checked' : '';
+            let cS = (answers[currentIdx] && answers[currentIdx][s.key] === "S") ? 'checked' : '';
+            let disabled = isReviewMode ? 'disabled' : '';
+            let rD = isReviewMode ? (q.dapAnDungGoc[s.key] === "D" ? "review-correct" : (cD ? "review-incorrect" : "")) : "";
+            let rS = isReviewMode ? (q.dapAnDungGoc[s.key] === "S" ? "review-correct" : (cS ? "review-incorrect" : "")) : "";
+            html += `<tr><td class="tf-stmt">${s.text}</td><td class="${rD}"><input type="radio" name="q${currentIdx}_${s.key}" value="D" ${cD} ${disabled} onchange="handleInput()"></td><td class="${rS}"><input type="radio" name="q${currentIdx}_${s.key}" value="S" ${cS} ${disabled} onchange="handleInput()"></td></tr>`;
+        });
+        html += `</table>`;
+    } else if(q.type === "SA") {
+        let val = answers[currentIdx] || "";
+        let disabled = isReviewMode ? 'disabled' : '';
+        let rCls = "", corrS = "";
+        if(isReviewMode) {
+            let isC = val.toString().toLowerCase() === q.dapAnDungGoc.toString().toLowerCase();
+            rCls = isC ? "review-correct" : "review-incorrect";
+            if(!isC) corrS = `<div class="correction">Đáp án đúng: ${q.dapAnDungGoc}</div>`;
+        }
+        html += `<div style="text-align:center;"><input type="text" id="q${currentIdx}_sa" class="short-ans-input ${rCls}" value="${val}" ${disabled} oninput="handleInput()" placeholder="..."> ${corrS}</div>`;
+    } else if(q.type === "DD") {
+        let tokensHtml = `<div class="drag-container" id="token-container-${currentIdx}">`;
+        q.tokens.forEach(t => {
+            let isP = false; 
+            if(answers[currentIdx]) Object.values(answers[currentIdx]).forEach(v => { if(v === t.id) isP = true; });
+            if(!isP) tokensHtml += `<div class="drag-token" data-id="${t.id}">${t.text}</div>`;
+        });
+        tokensHtml += `</div>`;
+        html = html.replace('</div>', '</div>' + tokensHtml);
+    }
+    
+    ctn.innerHTML = html;
+    
+    if(q.type === "DD") {
+        q.drops.forEach(d => {
+            let dz = document.querySelector(`[data-drop-id="${d.id}"]`);
+            if(isReviewMode) {
+                let ansId = answers[currentIdx] ? answers[currentIdx][d.id] : null;
+                if(ansId === d.correct) dz.classList.add('review-correct');
+                else { dz.classList.add('review-incorrect'); dz.insertAdjacentHTML('afterend', `<span class="correction">${q.tokens.find(t=>t.id===d.correct).text}</span>`); }
+            }
+            if(answers[currentIdx] && answers[currentIdx][d.id]) {
+                let tId = answers[currentIdx][d.id], tObj = q.tokens.find(t => t.id === tId);
+                if(tObj) dz.innerHTML = `<div class="drag-token" data-id="${tObj.id}">${tObj.text}</div>`;
+            }
+        });
+        if(!isReviewMode) initDragDrop();
+    }
+    renderControls();
+}
+
+let selectedToken = null;
+function initDragDrop() {
+    const container = document.querySelector('.drag-container');
+    const tokens = document.querySelectorAll('.drag-token');
+    const zones = document.querySelectorAll('.drop-zone');
+    
+    function attachTokenEvent(t) {
+        t.onclick = (e) => {
+            if(isReviewMode) return;
+            e.stopPropagation();
+            
+            if(t.parentElement.classList.contains('drop-zone')) {
+                container.appendChild(t);
+                t.classList.remove('selected');
+                selectedToken = null;
+                handleInput();
+                return;
+            }
+            if(selectedToken) selectedToken.classList.remove('selected');
+            if(selectedToken === t) selectedToken = null;
+            else { selectedToken = t; t.classList.add('selected'); }
+        };
+    }
+    tokens.forEach(attachTokenEvent);
+    
+    zones.forEach(z => {
+        z.onclick = () => {
+            if(isReviewMode) return;
+            if(selectedToken) {
+                if(z.hasChildNodes()) container.appendChild(z.firstChild);
+                z.appendChild(selectedToken);
+                selectedToken.classList.remove('selected');
+                selectedToken = null;
+                handleInput();
+            } 
+            else if(z.hasChildNodes()) {
+                container.appendChild(z.firstChild);
+                handleInput();
+            }
+        };
+    });
+}
+
+function renderControls() {
+    let ctrl = document.getElementById('controls'); ctrl.innerHTML = '';
+    let btnPrev = document.createElement('button'); btnPrev.innerText = 'Câu trước'; btnPrev.style.background = '#78909c'; btnPrev.disabled = currentIdx === 0;
+    btnPrev.onclick = () => { currentIdx--; renderQuestion(); }; ctrl.appendChild(btnPrev);
+    
+    if(currentIdx < TONG_SO_CAU - 1) {
+        let btnNext = document.createElement('button'); btnNext.innerText = 'Câu tiếp theo'; btnNext.disabled = !checkAnswered(currentIdx) && !isReviewMode;
+        btnNext.onclick = () => { currentIdx++; renderQuestion(); }; ctrl.appendChild(btnNext);
+    } else if(!isReviewMode) {
+        let btnSub = document.createElement('button'); btnSub.innerText = 'Nộp bài'; btnSub.style.background = '#e91e63'; btnSub.disabled = !checkAnswered(currentIdx) || daGuiDuLieu;
+        btnSub.onclick = submitTest; ctrl.appendChild(btnSub);
+    }
+}
+
+function calculateScore() {
+    let diem = 0, soDung = 0;
+    shuffledQuestions.forEach((q, i) => {
+        let ans = answers[i]; if(!ans) return;
+        if(q.type === "MCQ") { if(ans === q.dapAnDungGoc) { diem += 0.4; soDung++; } }
+        else if(q.type === "TF") {
+            let sub = 0; Object.keys(q.dapAnDungGoc).forEach(k => { if(ans[k] === q.dapAnDungGoc[k]) sub++; });
+            if(sub === 4) { diem += 0.5; soDung++; } else if(sub === 3) diem += 0.25; else if(sub === 2) diem += 0.1;
+        } else if(q.type === "SA") { if(ans.toString().toLowerCase() === q.dapAnDungGoc.toString().toLowerCase()) { diem += 0.3; soDung++; } }
+        else if(q.type === "DD") { if(Object.keys(q.dapAnDungGoc).every(k => ans[k] === q.dapAnDungGoc[k])) { diem += 0.35; soDung++; } }
+    });
+    return { diem: Math.min(10, Math.round(diem * 10) / 10), soDung };
+}
+
+async function submitTest() {
+    if(daGuiDuLieu) return; daGuiDuLieu = true;
+    let res = calculateScore();
+    
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
+    document.getElementById('infoBoard').innerHTML = `Học sinh: <b>${hoTen}</b> | Lớp: <b>${lop}</b><br>Thời gian nộp: ${new Date().toLocaleString('vi-VN')}`;
+    document.getElementById('rs-diem').innerText = res.diem;
+    document.getElementById('rs-dung').innerText = res.soDung;
+    document.getElementById('rs-sai').innerText = TONG_SO_CAU - res.soDung;
+    
+    let sts = document.getElementById('saveStatus'); sts.innerText = 'Đang gửi kết quả lên hệ thống...';
+    let scriptUrl = SCRIPT_URLS[lop] || SCRIPT_URLS["12A5"];
+    try {
+        await fetch(scriptUrl, { method: "POST", mode: 'no-cors', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ hoTen, lop, diem: res.diem, soDung: res.soDung, tongSoCau: TONG_SO_CAU }) });
+        sts.innerHTML = '<span style="color: #4CAF50;"> ✅  Đã lưu kết quả thành công!</span>';
+        document.getElementById('btnReview').classList.remove('hidden'); document.getElementById('btnRestart').classList.remove('hidden');
+    } catch(e) {
+        sts.innerHTML = '<span style="color: #f44336;"> ⚠️  Không thể kết nối server, nhưng điểm đã được ghi nhận.</span>';
+        document.getElementById('btnReview').classList.remove('hidden');
+    }
+}
+
+document.getElementById('btnReview').onclick = () => { isReviewMode = true; currentIdx = 0; document.getElementById('result-screen').classList.add('hidden'); document.getElementById('quiz-screen').classList.remove('hidden'); renderQuestion(); };
+document.getElementById('btnRestart').onclick = () => location.reload();
+</script>
+</body>
+</html>
